@@ -29,6 +29,13 @@ public class ScriptUtil {
 	private static Map<String, Object> scripts = new HashMap<String, Object>();
 	
 
+	/**
+	 * 执行方法
+	 * @param name
+	 * @param methodName
+	 * @param parameterTypes
+	 * @param args
+	 */
 	public static void invoke(String name,String methodName, Class<?>[] parameterTypes,Object[] args) {
 		Object object = scripts.get(name);
 		try {
@@ -39,6 +46,11 @@ public class ScriptUtil {
 		}
 	}
 	
+	/**
+	 * 重新加载类
+	 * @param name
+	 * @param url
+	 */
 	public static void reload(String name,String url) {
 		try {
 			ScriptUtil.getInstance();
@@ -62,10 +74,10 @@ public class ScriptUtil {
 			synchronized (ScriptUtil.class) {
 				if(instance == null) instance = new ScriptUtil();
 			}
-			
 		}
 		return instance;
 	}
+	
 	private void buildClassPath() {
         this.classpath = null;
         StringBuilder sb = new StringBuilder();
@@ -75,6 +87,8 @@ public class ScriptUtil {
         }
         this.classpath = sb.toString();
     }
+	
+	
 	/**
 	 * 从本地路径中读取字符串代码
 	 * @param url 路径名
@@ -92,6 +106,13 @@ public class ScriptUtil {
 		return code.toString();
 	}
 	
+	/**
+	 * 编译类
+	 * @param name
+	 * @param code
+	 * @return
+	 * @throws IOException
+	 */
 	@SuppressWarnings("resource")
 	private Class<?> codeToClass(String name, String code) throws IOException {
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
@@ -120,6 +141,4 @@ public class ScriptUtil {
 		}
 		return null;
 	}
-	
-	
 }
